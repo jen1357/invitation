@@ -82,4 +82,1230 @@
       min-height: 100vh;
       margin: 0 auto;
       background: var(--paper);
-      o
+      overflow: hidden;
+    }
+
+    @media (min-width: 431px) {
+      .page { box-shadow: 0 0 0 1px rgba(0, 0, 0, .03), 0 24px 70px rgba(0, 0, 0, .09); }
+    }
+
+    /* ───────── 첫 화면 ───────── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      height: 100svh;
+      min-height: 540px;
+      overflow: hidden;
+      background: #2a2826;
+      color: #fff;
+      text-align: center;
+    }
+
+    .hero-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: var(--hero-focus);
+    }
+
+    .hero-shade {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(0, 0, 0, .34) 0%, rgba(0, 0, 0, 0) 24%),
+        linear-gradient(to top, rgba(0, 0, 0, .58) 0%, rgba(0, 0, 0, .18) 34%, rgba(0, 0, 0, 0) 52%);
+    }
+
+    .hero-top {
+      position: absolute;
+      top: calc(46px + env(safe-area-inset-top));
+      left: 0;
+      right: 0;
+      font-size: 14px;
+      font-weight: 300;
+      letter-spacing: .32em;
+      padding-left: .32em;
+      color: rgba(255, 255, 255, .92);
+      text-shadow: 0 1px 10px rgba(0, 0, 0, .2);
+    }
+
+    .hero-bottom {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: calc(78px + env(safe-area-inset-bottom));
+      padding: 0 24px;
+    }
+
+    .hero-names {
+      font-size: clamp(22px, 6.4vw, 26px);
+      font-weight: 400;
+      letter-spacing: .16em;
+      padding-left: .16em;
+      line-height: 1.3;
+      text-shadow: 0 1px 14px rgba(0, 0, 0, .25);
+    }
+
+    .hero-sep {
+      display: inline-block;
+      width: 18px;
+      height: 1px;
+      margin: 0 .5em 0 .34em;
+      vertical-align: middle;
+      background: rgba(255, 255, 255, .75);
+    }
+
+    .hero-meta {
+      margin-top: 18px;
+      font-family: var(--sans);
+      font-size: 13px;
+      line-height: 1.85;
+      letter-spacing: .04em;
+      color: rgba(255, 255, 255, .86);
+    }
+
+    .hero-cue {
+      position: absolute;
+      left: 50%;
+      bottom: calc(22px + env(safe-area-inset-bottom));
+      width: 1px;
+      height: 34px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, .28);
+    }
+
+    .hero-cue::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1px;
+      height: 12px;
+      background: #fff;
+      transform: translateY(-12px);
+    }
+
+    /* 첫 화면 등장 */
+    .js .hero-photo { opacity: 0; transition: opacity .6s; }
+    .js .hero.is-ready .hero-photo { opacity: 1; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .js .hero.is-ready .hero-photo { animation: settle 2.4s cubic-bezier(.22, .61, .36, 1) both; }
+      .hero-top, .hero-bottom { animation: rise 1.3s .35s cubic-bezier(.22, .61, .36, 1) both; }
+      .hero-cue::after { animation: cue 2.2s 1.6s ease-in-out infinite; }
+    }
+
+    @keyframes settle {
+      from { opacity: 0; transform: scale(1.07); }
+      30% { opacity: 1; }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    @keyframes cue {
+      0% { transform: translateY(-12px); }
+      70%, 100% { transform: translateY(34px); }
+    }
+
+    /* ───────── 공통 ───────── */
+    .sec {
+      padding: 92px 32px;
+      text-align: center;
+    }
+
+    .sec--mist { background: var(--mist); }
+
+    .sec-title {
+      margin-bottom: 44px;
+      font-size: 17px;
+      font-weight: 500;
+      letter-spacing: .14em;
+      padding-left: .14em;
+      color: var(--ink);
+    }
+
+    .sec-sub {
+      margin: -30px 0 36px;
+      font-family: var(--sans);
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--gray);
+    }
+
+    /* ───────── 초대합니다 ───────── */
+    .greeting {
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 2.25;
+      color: var(--ink-soft);
+    }
+
+    .family {
+      display: grid;
+      grid-template-columns: auto auto auto;
+      justify-content: center;
+      align-items: baseline;
+      column-gap: 10px;
+      row-gap: 14px;
+      margin-top: 56px;
+      padding-top: 40px;
+      border-top: 1px solid var(--line);
+      font-size: 15.5px;
+    }
+
+    .family-parents {
+      text-align: right;
+      font-weight: 500;
+      letter-spacing: .04em;
+    }
+
+    .family-rel {
+      text-align: left;
+      font-family: var(--sans);
+      font-size: 12.5px;
+      color: var(--gray);
+    }
+
+    .family-child {
+      text-align: left;
+      font-weight: 600;
+      letter-spacing: .06em;
+    }
+
+    /* ───────── 결혼식 안내 ───────── */
+    .when-date {
+      font-family: var(--latin);
+      font-size: 34px;
+      font-weight: 400;
+      letter-spacing: .06em;
+      line-height: 1;
+      font-variant-numeric: lining-nums;
+      color: var(--ink);
+    }
+
+    .when-time {
+      margin-top: 12px;
+      font-family: var(--sans);
+      font-size: 14px;
+      letter-spacing: .04em;
+      color: var(--ink-soft);
+    }
+
+    .cal {
+      width: 100%;
+      max-width: 300px;
+      margin: 40px auto 0;
+      padding: 14px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      table-layout: fixed;
+      border-collapse: collapse;
+      font-family: var(--sans);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .cal th,
+    .cal td {
+      height: 42px;
+      padding: 0;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .cal th {
+      height: 34px;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--gray);
+    }
+
+    .cal td {
+      font-size: 14px;
+      color: var(--ink-soft);
+    }
+
+    .cal .sun { color: var(--camellia-soft); }
+
+    .cal-day {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--camellia);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .dday {
+      margin-top: 30px;
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--ink-soft);
+    }
+
+    .dday-heart,
+    .dday b {
+      color: var(--camellia);
+    }
+
+    .dday b { font-weight: 700; }
+
+    /* ───────── 갤러리 ───────── */
+    .sec--gallery {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-auto-flow: row dense;
+      gap: 3px;
+    }
+
+    .g-item {
+      position: relative;
+      display: block;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: var(--mist);
+      overflow: hidden;
+      cursor: zoom-in;
+    }
+
+    .g-item.is-large {
+      grid-column: span 2;
+      grid-row: span 2;
+      aspect-ratio: auto;
+    }
+
+    .g-item.is-right { grid-column: 2 / span 2; }
+
+    .gallery.is-collapsed .is-extra { display: none; }
+
+    .g-item img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity .6s ease, transform .5s ease;
+    }
+
+    .g-item img.is-loaded { opacity: 1; }
+
+    @media (hover: hover) {
+      .g-item:hover img { transform: scale(1.03); }
+    }
+
+    .g-error {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 10px;
+      font: 11.5px/1.6 var(--sans);
+      color: var(--gray);
+    }
+
+    .gallery-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 32px;
+      padding: 12px 26px;
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      background: var(--paper);
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--ink-soft);
+      cursor: pointer;
+    }
+
+    .gallery-more svg { width: 12px; height: 12px; }
+
+    /* ───────── 사진 크게 보기 ───────── */
+    .viewer {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      max-height: none;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: #0d0d0d;
+      color: #fff;
+      overflow: hidden;
+      font-family: var(--sans);
+    }
+
+    .viewer:not([open]) { display: none; }
+    .viewer::backdrop { background: #0d0d0d; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .viewer[open] { animation: fade .25s ease-out; }
+    }
+
+    @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+    .viewer-track {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      overscroll-behavior: contain;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .viewer-track::-webkit-scrollbar { display: none; }
+
+    .viewer-slide {
+      position: relative;
+      flex: 0 0 100%;
+      height: 100%;
+      padding: calc(64px + env(safe-area-inset-top)) 0 calc(84px + env(safe-area-inset-bottom));
+      scroll-snap-align: center;
+      scroll-snap-stop: always;
+    }
+
+    .viewer-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .viewer-error {
+      position: absolute;
+      inset: 0;
+      display: none;
+      place-items: center;
+      font-size: 13px;
+      color: #aaa;
+    }
+
+    .viewer-slide.is-error img { visibility: hidden; }
+    .viewer-slide.is-error .viewer-error { display: grid; }
+
+    .viewer-close {
+      position: absolute;
+      top: calc(10px + env(safe-area-inset-top));
+      right: 8px;
+      z-index: 2;
+    }
+
+    .viewer-bar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: calc(18px + env(safe-area-inset-bottom));
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    .viewer-btn {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: rgba(255, 255, 255, .85);
+      cursor: pointer;
+    }
+
+    .viewer-btn svg { width: 22px; height: 22px; }
+
+    .viewer-count {
+      min-width: 64px;
+      font-size: 13px;
+      letter-spacing: .12em;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+      color: rgba(255, 255, 255, .8);
+    }
+
+    /* ───────── 오시는 길 ───────── */
+    .venue {
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: .06em;
+    }
+
+    .addr {
+      margin-top: 10px;
+      font-family: var(--sans);
+      font-size: 13.5px;
+      color: var(--gray);
+    }
+
+    .map {
+      margin: 32px -32px 0;
+      background: var(--mist);
+    }
+
+    .map iframe {
+      display: block;
+      width: 100%;
+      height: 260px;
+      border: 0;
+    }
+
+    .map figcaption {
+      padding: 10px 32px 0;
+      font: 12px/1.6 var(--sans);
+      color: var(--gray);
+      text-align: left;
+    }
+
+    .map-links {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    .map-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 46px;
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      background: var(--paper);
+      font-family: var(--sans);
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .routes {
+      margin-top: 40px;
+      text-align: left;
+      font-family: var(--sans);
+    }
+
+    .route {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 12px;
+      padding: 18px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .route:last-child { border-bottom: 1px solid var(--line); }
+
+    .route dt {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.75;
+    }
+
+    .route dd {
+      font-size: 13.5px;
+      line-height: 1.75;
+      color: var(--ink-soft);
+    }
+
+    .route-step {
+      display: block;
+      color: var(--gray);
+    }
+
+    .route-source {
+      margin-top: 14px;
+      text-align: left;
+      font: 12px/1.6 var(--sans);
+    }
+
+    .route-source a {
+      color: var(--gray);
+      text-underline-offset: 3px;
+    }
+
+    /* ───────── 마음 전하실 곳 ───────── */
+    .note {
+      font-family: var(--sans);
+      font-size: 14px;
+      line-height: 1.85;
+      color: var(--ink-soft);
+    }
+
+    .accounts {
+      margin-top: 36px;
+      text-align: left;
+      font-family: var(--sans);
+    }
+
+    .acc {
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      background: var(--paper);
+    }
+
+    .acc + .acc { margin-top: 8px; }
+
+    .acc summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 17px 18px;
+      font-size: 14.5px;
+      font-weight: 500;
+      color: var(--ink);
+      list-style: none;
+      cursor: pointer;
+    }
+
+    .acc summary::-webkit-details-marker { display: none; }
+
+    .acc summary svg {
+      width: 14px;
+      height: 14px;
+      color: var(--gray);
+      transition: transform .25s ease;
+    }
+
+    .acc[open] summary svg { transform: rotate(180deg); }
+
+    .acc-body {
+      margin: 0 18px;
+      padding: 16px 0 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .acc[open] .acc-body { animation: rise .35s ease-out; }
+    }
+
+    .acc-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .acc-who {
+      display: block;
+      font-size: 13px;
+      color: var(--gray);
+    }
+
+    .acc-num {
+      display: block;
+      margin-top: 4px;
+      font-size: 14.5px;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .01em;
+    }
+
+    .copy-btn {
+      flex: none;
+      padding: 9px 16px;
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      background: var(--paper);
+      font-size: 13px;
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .copy-btn:active { background: var(--mist); }
+
+    /* ───────── 마무리 ───────── */
+    .closing {
+      padding: 64px 32px calc(72px + env(safe-area-inset-bottom));
+      text-align: center;
+      border-top: 1px solid var(--line);
+    }
+
+    .closing-date {
+      font-family: var(--latin);
+      font-style: italic;
+      font-size: 17px;
+      letter-spacing: .08em;
+      font-variant-numeric: lining-nums;
+      color: var(--gray);
+    }
+
+    .closing-names {
+      margin-top: 8px;
+      font-size: 14px;
+      letter-spacing: .2em;
+      padding-left: .2em;
+      color: var(--ink-soft);
+    }
+
+    /* 알림 */
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(32px + env(safe-area-inset-bottom));
+      z-index: 50;
+      width: max-content;
+      max-width: calc(100% - 48px);
+      padding: 12px 20px;
+      border-radius: 3px;
+      background: rgba(38, 38, 38, .92);
+      color: #fff;
+      font: 500 13px/1.5 var(--sans);
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 10px);
+      transition: opacity .25s, transform .25s;
+    }
+
+    .toast.is-on {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    @media (max-width: 350px) {
+      .sec { padding-left: 22px; padding-right: 22px; }
+      .map { margin-left: -22px; margin-right: -22px; }
+      .map figcaption { padding-left: 22px; padding-right: 22px; }
+      .family { font-size: 14px; column-gap: 7px; }
+      .hero-names { letter-spacing: .1em; padding-left: .1em; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+
+    <!-- 첫 화면 -->
+    <header class="hero" id="hero">
+      <img
+        class="hero-photo"
+        id="hero-photo"
+        src="main2.jpg"
+        alt="김준수와 김대연의 웨딩 사진"
+        fetchpriority="high"
+      >
+      <div class="hero-shade" aria-hidden="true"></div>
+
+      <p class="hero-top">우리, 결혼합니다</p>
+
+      <div class="hero-bottom">
+        <h1 class="hero-names">김준수<span class="hero-sep"><span class="sr-only">그리고</span></span>김대연</h1>
+        <p class="hero-meta">
+          2027년 2월 27일 토요일 오후 1시<br>
+          연세대학교 동문회관
+        </p>
+      </div>
+
+      <div class="hero-cue" aria-hidden="true"></div>
+    </header>
+
+    <!-- 초대합니다 -->
+    <section class="sec" aria-labelledby="invite-title">
+      <h2 class="sec-title" id="invite-title">초대합니다</h2>
+
+      <p class="greeting">
+        저희 두 사람이 믿음과 사랑으로<br>
+        한 가정을 이루게 되었습니다.<br><br>
+        함께 걸어갈 새로운 시작의 자리에<br>
+        귀한 걸음 하시어<br>
+        축복해 주시면 감사하겠습니다.
+      </p>
+
+      <div class="family">
+        <span class="family-parents">김도현 · 서재영</span>
+        <span class="family-rel">의 아들</span>
+        <span class="family-child">준수</span>
+
+        <span class="family-parents">김남진 · 김은영</span>
+        <span class="family-rel">의 딸</span>
+        <span class="family-child">대연</span>
+      </div>
+    </section>
+
+    <!-- 결혼식 안내 -->
+    <section class="sec sec--mist" aria-labelledby="when-title">
+      <h2 class="sec-title" id="when-title">결혼식 안내</h2>
+
+      <p class="when-date">2027. 2. 27</p>
+      <p class="when-time">토요일 오후 1시</p>
+
+      <table class="cal" aria-label="2027년 2월 달력">
+        <thead>
+          <tr>
+            <th scope="col" class="sun">일</th>
+            <th scope="col">월</th>
+            <th scope="col">화</th>
+            <th scope="col">수</th>
+            <th scope="col">목</th>
+            <th scope="col">금</th>
+            <th scope="col">토</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="sun"></td>
+            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td>
+          </tr>
+          <tr>
+            <td class="sun">7</td>
+            <td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td>
+          </tr>
+          <tr>
+            <td class="sun">14</td>
+            <td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td>
+          </tr>
+          <tr>
+            <td class="sun">21</td>
+            <td>22</td><td>23</td><td>24</td><td>25</td><td>26</td>
+            <td><span class="cal-day" aria-label="2월 27일 토요일, 결혼식">27</span></td>
+          </tr>
+          <tr>
+            <td class="sun">28</td>
+            <td></td><td></td><td></td><td></td><td></td><td></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="dday" id="dday">
+        준수 <span class="dday-heart">♥</span> 대연의 결혼식이 <b id="dday-count">0</b>일 남았습니다.
+      </p>
+    </section>
+
+    <!-- 함께한 순간 -->
+    <section class="sec sec--gallery" aria-labelledby="gallery-title">
+      <h2 class="sec-title" id="gallery-title">함께한 순간</h2>
+      <p class="sec-sub">사진을 누르면 크게 볼 수 있습니다.</p>
+
+      <div class="gallery is-collapsed" id="gallery"></div>
+
+      <button class="gallery-more" id="gallery-more" type="button" hidden>
+        사진 더보기
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M2 4.5 6 8.5l4-4"/></svg>
+      </button>
+
+      <noscript>
+        <p class="sec-sub" style="margin: 0;">사진을 보려면 브라우저의 자바스크립트를 켜 주세요.</p>
+      </noscript>
+    </section>
+
+    <!-- 오시는 길 -->
+    <section class="sec sec--mist" aria-labelledby="map-title">
+      <h2 class="sec-title" id="map-title">오시는 길</h2>
+
+      <p class="venue">연세대학교 동문회관</p>
+      <p class="addr">서울특별시 서대문구 연세로 50 (신촌동 134)</p>
+
+      <figure class="map">
+        <iframe
+          title="연세대학교 동문회관 위치 지도"
+          src="https://maps.google.com/maps?q=37.562805%2C126.942454&amp;z=16&amp;output=embed&amp;hl=ko"
+          loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+        ></iframe>
+        <figcaption>이대 후문 인근</figcaption>
+      </figure>
+
+      <div class="map-links">
+        <a class="map-link" href="https://map.naver.com/p/search/연세대학교동문회관" target="_blank" rel="noopener noreferrer">네이버 지도</a>
+        <a class="map-link" href="https://map.kakao.com/link/search/연세대학교동문회관" target="_blank" rel="noopener noreferrer">카카오맵</a>
+      </div>
+
+      <dl class="routes">
+        <div class="route">
+          <dt>지하철</dt>
+          <dd>
+            2호선 이대역 4번 출구에서 50m 직진
+            <span class="route-step">→ 742·7017번 버스 탑승 후 ‘이대부중’ 하차</span>
+          </dd>
+        </div>
+        <div class="route">
+          <dt>버스</dt>
+          <dd>‘이대 후문’ 또는 ‘이대부중’ 정류장 하차</dd>
+        </div>
+        <div class="route">
+          <dt>주차</dt>
+          <dd>
+            동문회관 주차장 이용<br>
+            주차할인기에서 인증 시 하객 2시간 무료
+          </dd>
+        </div>
+      </dl>
+
+      <p class="route-source">
+        <a href="https://www.ysab.co.kr/about.php?mid=m01_04" target="_blank" rel="noopener noreferrer">예식장 공식 교통 안내 ↗</a>
+      </p>
+    </section>
+
+    <!-- 마음 전하실 곳 -->
+    <section class="sec" aria-labelledby="gift-title">
+      <h2 class="sec-title" id="gift-title">마음 전하실 곳</h2>
+
+      <p class="note">
+        참석이 어려우신 분들을 위해<br>
+        축하의 마음을 전하실 곳을 안내해 드립니다.
+      </p>
+
+      <div class="accounts">
+        <details class="acc">
+          <summary>
+            신랑 측 계좌번호
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M3 5.5 7 9.5l4-4"/></svg>
+          </summary>
+          <div class="acc-body">
+            <div class="acc-row">
+              <div>
+                <span class="acc-who">신랑 김준수</span>
+                <span class="acc-num">우리은행 1002-836-230342</span>
+              </div>
+              <button class="copy-btn" type="button" data-copy="우리은행 1002-836-230342">복사</button>
+            </div>
+          </div>
+        </details>
+
+        <details class="acc">
+          <summary>
+            신부 측 계좌번호
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M3 5.5 7 9.5l4-4"/></svg>
+          </summary>
+          <div class="acc-body">
+            <div class="acc-row">
+              <div>
+                <span class="acc-who">신부 김대연</span>
+                <span class="acc-num">우리은행 1002-452-670887</span>
+              </div>
+              <button class="copy-btn" type="button" data-copy="우리은행 1002-452-670887">복사</button>
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <footer class="closing">
+      <p class="closing-date">2027. 2. 27</p>
+      <p class="closing-names">준수 그리고 대연</p>
+    </footer>
+  </main>
+
+  <!-- 사진 크게 보기 -->
+  <dialog class="viewer" id="viewer" aria-label="사진 크게 보기">
+    <div class="viewer-track" id="viewer-track"></div>
+
+    <button class="viewer-btn viewer-close" id="viewer-close" type="button" aria-label="닫기">
+      <svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 5l12 12M17 5 5 17"/></svg>
+    </button>
+
+    <div class="viewer-bar">
+      <button class="viewer-btn" id="viewer-prev" type="button" aria-label="이전 사진">
+        <svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M13.5 4.5 7 11l6.5 6.5"/></svg>
+      </button>
+      <span class="viewer-count" id="viewer-count" aria-live="polite" aria-atomic="true"></span>
+      <button class="viewer-btn" id="viewer-next" type="button" aria-label="다음 사진">
+        <svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M8.5 4.5 15 11l-6.5 6.5"/></svg>
+      </button>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // ───────── 사진 설정 ─────────
+    // index.html과 같은 폴더에 main2.jpg, gallery1.jpg ~ gallery15.jpg 를 올려 주세요.
+    // 확장자가 다르면 PHOTO_EXT를 바꿔 주세요. (예: 'jpeg', 'png', 'webp')
+    // 사진 수는 6의 배수 또는 15장일 때 갤러리 모양이 가장 깔끔합니다.
+    const PHOTO_COUNT = 15;
+    const PHOTO_EXT = 'jpg';
+    const FIRST_SHOWN = 9;   // 처음에 보여줄 사진 수 (나머지는 '사진 더보기')
+
+    const photos = Array.from({ length: PHOTO_COUNT }, (_, i) => ({
+      src: `gallery${i + 1}.${PHOTO_EXT}`,
+      alt: `준수와 대연의 웨딩 사진 ${i + 1}`
+    }));
+
+    const $ = id => document.getElementById(id);
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ───────── 첫 화면 사진 ─────────
+    const hero = $('hero');
+    const heroPhoto = $('hero-photo');
+    const showHero = () => hero.classList.add('is-ready');
+
+    if (heroPhoto.complete) {
+      showHero();
+    } else {
+      heroPhoto.addEventListener('load', showHero, { once: true });
+      heroPhoto.addEventListener('error', showHero, { once: true });
+      setTimeout(showHero, 3000);
+    }
+
+    // ───────── 갤러리 ─────────
+    const gallery = $('gallery');
+    const moreButton = $('gallery-more');
+
+    photos.forEach((photo, index) => {
+      const item = document.createElement('button');
+      item.type = 'button';
+      item.className = 'g-item';
+      item.setAttribute('aria-label', `${index + 1}번 사진 크게 보기`);
+      item.setAttribute('aria-haspopup', 'dialog');
+
+      // 12장 단위로 큰 사진이 왼쪽, 오른쪽 번갈아 놓입니다.
+      const position = index % 12;
+      if (position === 0) item.classList.add('is-large');
+      if (position === 6) item.classList.add('is-large', 'is-right');
+      if (index >= FIRST_SHOWN) item.classList.add('is-extra');
+
+      const img = document.createElement('img');
+      img.alt = photo.alt;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+
+      img.addEventListener('load', () => img.classList.add('is-loaded'), { once: true });
+      img.addEventListener('error', () => {
+        img.hidden = true;
+        const error = document.createElement('span');
+        error.className = 'g-error';
+        error.textContent = '사진을 불러오지 못했어요.';
+        item.append(error);
+      }, { once: true });
+
+      img.src = photo.src;
+      item.append(img);
+      item.addEventListener('click', () => openViewer(index, item));
+      gallery.append(item);
+    });
+
+    if (PHOTO_COUNT > FIRST_SHOWN) {
+      moreButton.hidden = false;
+      moreButton.addEventListener('click', () => {
+        gallery.classList.remove('is-collapsed');
+        moreButton.hidden = true;
+        const firstExtra = gallery.querySelector('.is-extra');
+        if (firstExtra) firstExtra.focus({ preventScroll: true });
+      });
+    } else {
+      gallery.classList.remove('is-collapsed');
+    }
+
+    // ───────── 사진 크게 보기 ─────────
+    const viewer = $('viewer');
+    const track = $('viewer-track');
+    const countText = $('viewer-count');
+
+    let current = 0;
+    let lastTrigger = null;
+    let savedScrollY = 0;
+    let frame = 0;
+
+    photos.forEach(photo => {
+      const slide = document.createElement('div');
+      slide.className = 'viewer-slide';
+
+      const img = document.createElement('img');
+      img.alt = photo.alt;
+      img.decoding = 'async';
+      img.draggable = false;
+      img.dataset.src = photo.src;
+      img.addEventListener('error', () => slide.classList.add('is-error'));
+
+      const error = document.createElement('p');
+      error.className = 'viewer-error';
+      error.textContent = '사진을 불러오지 못했어요.';
+
+      slide.append(img, error);
+      track.append(slide);
+    });
+
+    const slideImages = track.querySelectorAll('img');
+
+    function loadSlide(index) {
+      const img = slideImages[index];
+      if (img && !img.getAttribute('src')) img.src = img.dataset.src;
+    }
+
+    function setCurrent(index) {
+      current = index;
+      countText.textContent = `${index + 1} / ${photos.length}`;
+      loadSlide(index);
+      loadSlide(index + 1);
+      loadSlide(index - 1);
+    }
+
+    function goTo(index) {
+      const target = (index + photos.length) % photos.length;
+      const jump = Math.abs(target - current) > 1;
+      loadSlide(target);
+      track.scrollTo({
+        left: target * track.clientWidth,
+        behavior: jump || reduceMotion ? 'auto' : 'smooth'
+      });
+    }
+
+    function lockPage() {
+      savedScrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${savedScrollY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+    }
+
+    function unlockPage() {
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      window.scrollTo(0, savedScrollY);
+    }
+
+    function openViewer(index, trigger) {
+      lastTrigger = trigger;
+      lockPage();
+
+      if (typeof viewer.showModal === 'function') {
+        viewer.showModal();
+      } else {
+        viewer.setAttribute('open', '');
+      }
+
+      setCurrent(index);
+      track.scrollLeft = index * track.clientWidth;
+      requestAnimationFrame(() => {
+        track.scrollLeft = index * track.clientWidth;
+      });
+    }
+
+    function closeViewer() {
+      if (typeof viewer.close === 'function') {
+        viewer.close();
+      } else {
+        viewer.removeAttribute('open');
+        afterClose();
+      }
+    }
+
+    function afterClose() {
+      unlockPage();
+      if (lastTrigger) lastTrigger.focus({ preventScroll: true });
+    }
+
+    viewer.addEventListener('close', afterClose);
+
+    track.addEventListener('scroll', () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const width = track.clientWidth;
+        if (!width) return;
+        const index = Math.round(track.scrollLeft / width);
+        if (index !== current && index >= 0 && index < photos.length) {
+          setCurrent(index);
+        }
+      });
+    }, { passive: true });
+
+    $('viewer-close').addEventListener('click', closeViewer);
+    $('viewer-prev').addEventListener('click', () => goTo(current - 1));
+    $('viewer-next').addEventListener('click', () => goTo(current + 1));
+
+    viewer.addEventListener('keydown', event => {
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+        event.preventDefault();
+        goTo(current + (event.key === 'ArrowRight' ? 1 : -1));
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (viewer.hasAttribute('open')) {
+        track.scrollLeft = current * track.clientWidth;
+      }
+    });
+
+    // ───────── 결혼식까지 남은 날 ─────────
+    (function updateDday() {
+      const weddingDay = new Date(2027, 1, 27);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const days = Math.round((weddingDay - today) / 86400000);
+      const message = $('dday');
+
+      if (days > 0) {
+        $('dday-count').textContent = days;
+      } else if (days === 0) {
+        message.textContent = '오늘은 두 사람이 결혼하는 날입니다.';
+      } else {
+        message.textContent = '축복 속에 결혼식을 잘 마쳤습니다.';
+      }
+    })();
+
+    // ───────── 계좌번호 복사 ─────────
+    const toast = $('toast');
+    let toastTimer = 0;
+
+    function showToast(text) {
+      toast.textContent = text;
+      toast.classList.add('is-on');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('is-on'), 2200);
+    }
+
+    async function copyText(text) {
+      let copied = false;
+
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          copied = true;
+        }
+      } catch (error) {
+        copied = false;
+      }
+
+      if (!copied) {
+        const field = document.createElement('textarea');
+        field.value = text;
+        field.setAttribute('readonly', '');
+        field.style.cssText = 'position:fixed;top:0;left:0;opacity:0;font-size:16px;';
+        document.body.append(field);
+        field.select();
+        field.setSelectionRange(0, text.length);
+        try { copied = document.execCommand('copy'); } catch (error) { copied = false; }
+        field.remove();
+      }
+
+      showToast(copied
+        ? '계좌번호가 복사되었습니다.'
+        : '복사하지 못했어요. 번호를 길게 눌러 복사해 주세요.');
+    }
+
+    document.querySelectorAll('[data-copy]').forEach(button => {
+      button.addEventListener('click', () => copyText(button.dataset.copy));
+    });
+  </script>
+</body>
+</html>
