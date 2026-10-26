@@ -1037,16 +1037,51 @@
   <script>
     // ───────── 사진 설정 ─────────
     // index.html과 같은 폴더에 main2.jpg, gallery1.jpg ~ gallery15.jpg 를 올려 주세요.
-    // 확장자가 다르면 PHOTO_EXT를 바꿔 주세요. (예: 'jpeg', 'png', 'webp')
+    // 확장자(.JPG .jpeg .png .webp)나 첫 글자 대소문자(Gallery1)가 달라도 자동으로 찾아 봅니다.
     // 사진 수는 6의 배수 또는 15장일 때 갤러리 모양이 가장 깔끔합니다.
     const PHOTO_COUNT = 15;
     const PHOTO_EXT = 'jpg';
     const FIRST_SHOWN = 9;   // 처음에 보여줄 사진 수 (나머지는 '사진 더보기')
 
-    const photos = Array.from({ length: PHOTO_COUNT }, (_, i) => ({
-      src: `gallery${i + 1}.${PHOTO_EXT}`,
-      alt: `준수와 대연의 웨딩 사진 ${i + 1}`
-    }));
+    // 확장자가 다른 사진만 따로 적어 주세요. { 사진 번호: '확장자' }
+    const EXT_EXCEPTIONS = { 1: 'JPG' };
+
+    const EXTENSIONS = ['jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG', 'webp', 'WEBP'];
+
+    // 'gallery1' → ['gallery1.JPG', 'gallery1.jpg', ..., 'Gallery1.JPG', ...]
+    function sourcesFor(name, ext = PHOTO_EXT) {
+      const names = [name, name.charAt(0).toUpperCase() + name.slice(1)];
+      const list = [];
+      names.forEach(base => [ext, ...EXTENSIONS].forEach(ext => {
+        const file = `${base}.${ext}`;
+        if (!list.includes(file)) list.push(file);
+      }));
+      return list;
+    }
+
+    // 파일이 없으면 다음 후보 이름으로 다시 시도합니다.
+    function loadWithFallback(img, sources, onFail) {
+      let next = 0;
+      function tryNext() {
+        if (next >= sources.length) {
+          img.removeEventListener('error', tryNext);
+          if (onFail) onFail();
+          return;
+        }
+        img.src = sources[next++];
+      }
+      img.addEventListener('error', tryNext);
+      tryNext();
+    }
+
+    const photos = Array.from({ length: PHOTO_COUNT }, (_, i) => {
+      const ext = EXT_EXCEPTIONS[i + 1] || PHOTO_EXT;
+      return {
+        file: `gallery${i + 1}.${ext}`,
+        sources: sourcesFor(`gallery${i + 1}`, ext),
+        alt: `준수와 대연의 웨딩 사진 ${i + 1}`
+      };
+    });
 
     const $ = id => document.getElementById(id);
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1056,13 +1091,22 @@
     const heroPhoto = $('hero-photo');
     const showHero = () => hero.classList.add('is-ready');
 
-    if (heroPhoto.complete) {
-      showHero();
-    } else {
-      heroPhoto.addEventListener('load', showHero, { once: true });
-      heroPhoto.addEventListener('error', showHero, { once: true });
-      setTimeout(showHero, 3000);
+    function retryHero() {
+      const tried = heroPhoto.getAttribute('src');
+      loadWithFallback(heroPhoto, sourcesFor('main2').filter(file => file !== tried), showHero);
     }
+
+    heroPhoto.addEventListener('load', showHero);
+
+    if (heroPhoto.complete && heroPhoto.naturalWidth > 0) {
+      showHero();
+    } else if (heroPhoto.complete) {
+      retryHero();
+    } else {
+      heroPhoto.addEventListener('error', retryHero, { once: true });
+    }
+
+    setTimeout(showHero, 3000);
 
     // ───────── 갤러리 ─────────
     const gallery = $('gallery');
@@ -1086,16 +1130,19 @@
       img.loading = 'lazy';
       img.decoding = 'async';
 
-      img.addEventListener('load', () => img.classList.add('is-loaded'), { once: true });
-      img.addEventListener('error', () => {
+      img.addEventListener('load', () => {
+        img.classList.add('is-loaded');
+        photo.sources = [img.getAttribute('src')];   // 찾은 파일을 크게 보기에서도 사용
+      }, { once: true });
+
+      loadWithFallback(img, photo.sources, () => {
         img.hidden = true;
         const error = document.createElement('span');
         error.className = 'g-error';
-        error.textContent = '사진을 불러오지 못했어요.';
+        error.textContent = `${photo.file} 파일을 찾지 못했어요.`;
         item.append(error);
-      }, { once: true });
+      });
 
-      img.src = photo.src;
       item.append(img);
       item.addEventListener('click', () => openViewer(index, item));
       gallery.append(item);
@@ -1122,6 +1169,11 @@
     let lastTrigger = null;
     let savedScrollY = 0;
     let frame = 0;
+    let viewerInHistory = false;
+
+    // 뒤로가기로 사진을 닫을 때 페이지가 맨 위로 튀지 않게 합니다.
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    if (history.state && history.state.viewer) history.replaceState(null, '');
 
     photos.forEach(photo => {
       const slide = document.createElement('div');
@@ -1131,8 +1183,6 @@
       img.alt = photo.alt;
       img.decoding = 'async';
       img.draggable = false;
-      img.dataset.src = photo.src;
-      img.addEventListener('error', () => slide.classList.add('is-error'));
 
       const error = document.createElement('p');
       error.className = 'viewer-error';
@@ -1146,7 +1196,11 @@
 
     function loadSlide(index) {
       const img = slideImages[index];
-      if (img && !img.getAttribute('src')) img.src = img.dataset.src;
+      if (!img || img.dataset.started) return;
+      img.dataset.started = '1';
+      loadWithFallback(img, photos[index].sources, () => {
+        img.parentElement.classList.add('is-error');
+      });
     }
 
     function setCurrent(index) {
@@ -1185,6 +1239,15 @@
 
     function openViewer(index, trigger) {
       lastTrigger = trigger;
+
+      // 뒤로가기를 누르면 카톡으로 나가지 않고 사진 화면만 닫히도록 기록을 하나 남깁니다.
+      try {
+        history.pushState({ viewer: true }, '');
+        viewerInHistory = true;
+      } catch (error) {
+        viewerInHistory = false;
+      }
+
       lockPage();
 
       if (typeof viewer.showModal === 'function') {
@@ -1200,7 +1263,8 @@
       });
     }
 
-    function closeViewer() {
+    function hideViewer() {
+      if (!viewer.hasAttribute('open')) return;
       if (typeof viewer.close === 'function') {
         viewer.close();
       } else {
@@ -1209,12 +1273,34 @@
       }
     }
 
+    // × 버튼: 남겨 둔 기록을 지우면서 닫습니다.
+    function closeViewer() {
+      if (viewerInHistory) {
+        history.back();
+      } else {
+        hideViewer();
+      }
+    }
+
     function afterClose() {
       unlockPage();
       if (lastTrigger) lastTrigger.focus({ preventScroll: true });
     }
 
-    viewer.addEventListener('close', afterClose);
+    // 뒤로가기(버튼, 스와이프)
+    window.addEventListener('popstate', () => {
+      viewerInHistory = false;
+      hideViewer();
+    });
+
+    // ESC 키, 안드로이드 뒤로가기 등으로 창이 먼저 닫힌 경우 기록도 정리합니다.
+    viewer.addEventListener('close', () => {
+      afterClose();
+      if (viewerInHistory) {
+        viewerInHistory = false;
+        history.back();
+      }
+    });
 
     track.addEventListener('scroll', () => {
       cancelAnimationFrame(frame);
@@ -1308,4 +1394,4 @@
     });
   </script>
 </body>
-</html>
+  </html>
