@@ -6,12 +6,16 @@
   <meta name="format-detection" content="telephone=no">
 
   <!-- 카카오톡 공유 미리보기 -->
-  <!-- og:image는 전체 주소로 적어야 카톡 미리보기에 사진이 뜹니다.
-       예) https://아이디.github.io/저장소이름/main2.jpg -->
+  <!-- 1. thumb.jpg(가로 1200 × 세로 600)를 index.html과 같은 폴더에 올려 주세요.
+       2. og:image 주소의 '아이디'와 '저장소이름'을 실제 주소로 바꿔 주세요. (전체 주소여야 사진이 뜹니다)
+       3. 사진을 바꾼 뒤에는 ?v=1 을 ?v=2, ?v=3 … 으로 올려야 카톡이 새 사진을 가져갑니다. -->
+  <meta name="description" content="2027년 2월 27일 토요일 오후 1시, 연세대학교 동문회관">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="김준수 · 김대연 결혼합니다">
-  <meta property="og:description" content="2027년 2월 27일 (토) 오후 1시 | 연세대학교 동문회관">
-  <meta property="og:image" content="main2.jpg">
+  <meta property="og:title" content="김준수 ♥ 김대연 결혼합니다">
+  <meta property="og:description" content="2027년 2월 27일 토요일 오후 1시 · 연세대학교 동문회관">
+  <meta property="og:image" content="https://아이디.github.io/저장소이름/thumb.jpg?v=1">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="600">
 
   <title>김준수 · 김대연 결혼식에 초대합니다</title>
 
@@ -364,78 +368,147 @@
       padding-right: 0;
     }
 
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      grid-auto-flow: row dense;
-      gap: 3px;
+    .slider {
+      position: relative;
+      background: var(--mist);
     }
 
-    .g-item {
+    .slider-track {
+      display: flex;
+      align-items: flex-start;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .slider-track::-webkit-scrollbar { display: none; }
+
+    .slide {
       position: relative;
-      display: block;
-      width: 100%;
+      flex: 0 0 100%;
       aspect-ratio: 3 / 4;
       padding: 0;
       border: 0;
       border-radius: 0;
       background: var(--mist);
       overflow: hidden;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
       cursor: zoom-in;
     }
 
-    .g-item.is-large {
-      grid-column: span 2;
-      grid-row: span 2;
-      aspect-ratio: auto;
-    }
-
-    .g-item.is-right { grid-column: 2 / span 2; }
-
-    .gallery.is-collapsed .is-extra { display: none; }
-
-    .g-item img {
+    .slide img {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
       opacity: 0;
-      transition: opacity .6s ease, transform .5s ease;
+      transition: opacity .5s ease;
+      user-select: none;
+      -webkit-user-drag: none;
     }
 
-    .g-item img.is-loaded { opacity: 1; }
+    .slide img.is-loaded,
+    .thumb img.is-loaded { opacity: 1; }
 
-    @media (hover: hover) {
-      .g-item:hover img { transform: scale(1.03); }
-    }
-
-    .g-error {
+    .slide-error {
       position: absolute;
       inset: 0;
       display: grid;
       place-items: center;
-      padding: 10px;
-      font: 11.5px/1.6 var(--sans);
+      padding: 20px;
+      font: 12.5px/1.6 var(--sans);
       color: var(--gray);
     }
 
-    .gallery-more {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 32px;
-      padding: 12px 26px;
-      border: 1px solid var(--line);
-      border-radius: 3px;
-      background: var(--paper);
-      font-family: var(--sans);
-      font-size: 13px;
-      color: var(--ink-soft);
+    .slider-nav {
+      position: absolute;
+      top: 50%;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      margin-top: -22px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: #fff;
       cursor: pointer;
+      filter: drop-shadow(0 1px 3px rgba(0, 0, 0, .35));
     }
 
-    .gallery-more svg { width: 12px; height: 12px; }
+    .slider-nav svg { width: 24px; height: 24px; }
+    .slider-prev { left: 2px; }
+    .slider-next { right: 2px; }
+
+    .slider-count {
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, .32);
+      color: #fff;
+      font: 500 11.5px/1.4 var(--sans);
+      letter-spacing: .08em;
+      font-variant-numeric: tabular-nums;
+      pointer-events: none;
+    }
+
+    .thumbs {
+      position: relative;
+      display: flex;
+      gap: 6px;
+      margin-top: 12px;
+      padding: 0 20px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .thumbs::-webkit-scrollbar { display: none; }
+    .thumbs::after { content: ''; flex: 0 0 14px; }
+
+    .thumb {
+      position: relative;
+      flex: 0 0 52px;
+      aspect-ratio: 3 / 4;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: var(--mist);
+      overflow: hidden;
+      cursor: pointer;
+      opacity: .38;
+      transition: opacity .3s ease;
+    }
+
+    .thumb.is-active { opacity: 1; }
+
+    .thumb.is-active::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2px;
+      background: var(--camellia);
+    }
+
+    .thumb img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity .4s ease;
+    }
 
     /* ───────── 사진 크게 보기 ───────── */
     .viewer {
@@ -568,11 +641,65 @@
       background: var(--mist);
     }
 
-    .map iframe {
-      display: block;
+    .map-canvas {
       width: 100%;
       height: 260px;
-      border: 0;
+      background: #ebe9e5;
+    }
+
+    .map-fallback {
+      display: block;
+      position: relative;
+      color: var(--gray);
+      text-decoration: none;
+    }
+
+    .map-shot {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+    }
+
+    .map-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      height: 180px;
+      background: #ebe9e5;
+      font: 13px/1.6 var(--sans);
+    }
+
+    .map-empty svg {
+      width: 26px;
+      height: 26px;
+      color: var(--camellia);
+    }
+
+    /* 지도 위 장소 표시 */
+    .map-pin {
+      position: relative;
+      width: 22px;
+      height: 22px;
+      border: 3px solid #fff;
+      border-radius: 50%;
+      background: var(--camellia);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .25);
+    }
+
+    .map-pin span {
+      position: absolute;
+      top: 26px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 5px 9px;
+      border-radius: 3px;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+      font: 600 12px/1.2 var(--sans);
+      color: var(--ink);
+      white-space: nowrap;
     }
 
     .map figcaption {
@@ -900,14 +1027,22 @@
     <!-- 함께한 순간 -->
     <section class="sec sec--gallery" aria-labelledby="gallery-title">
       <h2 class="sec-title" id="gallery-title">함께한 순간</h2>
-      <p class="sec-sub">사진을 누르면 크게 볼 수 있습니다.</p>
+      <p class="sec-sub">옆으로 넘기거나 눌러서 크게 볼 수 있습니다.</p>
 
-      <div class="gallery is-collapsed" id="gallery"></div>
+      <div class="slider">
+        <div class="slider-track" id="slider-track"></div>
 
-      <button class="gallery-more" id="gallery-more" type="button" hidden>
-        사진 더보기
-        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M2 4.5 6 8.5l4-4"/></svg>
-      </button>
+        <button class="slider-nav slider-prev" id="slider-prev" type="button" aria-label="이전 사진">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14.5 5 8 12l6.5 7"/></svg>
+        </button>
+        <button class="slider-nav slider-next" id="slider-next" type="button" aria-label="다음 사진">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9.5 5 16 12l-6.5 7"/></svg>
+        </button>
+
+        <span class="slider-count" id="slider-count" aria-live="polite" aria-atomic="true"></span>
+      </div>
+
+      <div class="thumbs" id="thumbs" aria-label="사진 목록"></div>
 
       <noscript>
         <p class="sec-sub" style="margin: 0;">사진을 보려면 브라우저의 자바스크립트를 켜 주세요.</p>
@@ -921,14 +1056,17 @@
       <p class="venue">연세대학교 동문회관</p>
       <p class="addr">서울특별시 서대문구 연세로 50 (신촌동 134)</p>
 
-      <figure class="map">
-        <iframe
-          title="연세대학교 동문회관 위치 지도"
-          src="https://maps.google.com/maps?q=37.562805%2C126.942454&amp;z=16&amp;output=embed&amp;hl=ko"
-          loading="lazy"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen
-        ></iframe>
+      <figure class="map" id="map">
+        <div class="map-canvas" id="naver-map" role="img" aria-label="연세대학교 동문회관 위치 지도"></div>
+
+        <a class="map-fallback" id="map-fallback" href="https://map.naver.com/p/search/연세대학교동문회관" target="_blank" rel="noopener noreferrer" hidden>
+          <img class="map-shot" id="map-shot" alt="연세대학교 동문회관 위치 지도" hidden>
+          <span class="map-empty" id="map-empty" hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z"/><circle cx="12" cy="10" r="2.3"/></svg>
+            네이버 지도에서 위치 보기
+          </span>
+        </a>
+
         <figcaption>이대 후문 인근</figcaption>
       </figure>
 
@@ -1038,10 +1176,8 @@
     // ───────── 사진 설정 ─────────
     // index.html과 같은 폴더에 main2.jpg, gallery1.jpg ~ gallery15.jpg 를 올려 주세요.
     // 확장자(.JPG .jpeg .png .webp)나 첫 글자 대소문자(Gallery1)가 달라도 자동으로 찾아 봅니다.
-    // 사진 수는 6의 배수 또는 15장일 때 갤러리 모양이 가장 깔끔합니다.
     const PHOTO_COUNT = 15;
     const PHOTO_EXT = 'jpg';
-    const FIRST_SHOWN = 9;   // 처음에 보여줄 사진 수 (나머지는 '사진 더보기')
 
     // 확장자가 다른 사진만 따로 적어 주세요. { 사진 번호: '확장자' }
     const EXT_EXCEPTIONS = { 1: 'JPG' };
@@ -1109,55 +1245,140 @@
     setTimeout(showHero, 3000);
 
     // ───────── 갤러리 ─────────
-    const gallery = $('gallery');
-    const moreButton = $('gallery-more');
+    const sliderTrack = $('slider-track');
+    const thumbsBox = $('thumbs');
+    const sliderCount = $('slider-count');
+    const slides = [];
+    const thumbs = [];
+    let slideIndex = 0;
+    let slideFrame = 0;
+    let galleryReady = false;
+
+    // 사진을 찾으면 그 파일 이름을 기억해 두고 다른 곳에서도 씁니다.
+    function rememberFound(photo, img) {
+      img.addEventListener('load', () => {
+        img.classList.add('is-loaded');
+        photo.sources = [img.getAttribute('src')];
+      }, { once: true });
+    }
 
     photos.forEach((photo, index) => {
-      const item = document.createElement('button');
-      item.type = 'button';
-      item.className = 'g-item';
-      item.setAttribute('aria-label', `${index + 1}번 사진 크게 보기`);
-      item.setAttribute('aria-haspopup', 'dialog');
-
-      // 12장 단위로 큰 사진이 왼쪽, 오른쪽 번갈아 놓입니다.
-      const position = index % 12;
-      if (position === 0) item.classList.add('is-large');
-      if (position === 6) item.classList.add('is-large', 'is-right');
-      if (index >= FIRST_SHOWN) item.classList.add('is-extra');
+      const slide = document.createElement('button');
+      slide.type = 'button';
+      slide.className = 'slide';
+      slide.setAttribute('aria-label', `${index + 1}번 사진 크게 보기`);
+      slide.setAttribute('aria-haspopup', 'dialog');
 
       const img = document.createElement('img');
       img.alt = photo.alt;
-      img.loading = 'lazy';
       img.decoding = 'async';
+      img.draggable = false;
 
-      img.addEventListener('load', () => {
-        img.classList.add('is-loaded');
-        photo.sources = [img.getAttribute('src')];   // 찾은 파일을 크게 보기에서도 사용
-      }, { once: true });
+      slide.append(img);
+      slide.addEventListener('click', () => openViewer(index));
+      sliderTrack.append(slide);
+      slides.push(slide);
 
-      loadWithFallback(img, photo.sources, () => {
-        img.hidden = true;
-        const error = document.createElement('span');
-        error.className = 'g-error';
-        error.textContent = `${photo.file} 파일을 찾지 못했어요.`;
-        item.append(error);
-      });
+      const thumb = document.createElement('button');
+      thumb.type = 'button';
+      thumb.className = 'thumb';
+      thumb.setAttribute('aria-label', `${index + 1}번 사진 보기`);
 
-      item.append(img);
-      item.addEventListener('click', () => openViewer(index, item));
-      gallery.append(item);
+      const thumbImg = document.createElement('img');
+      thumbImg.alt = '';
+      thumbImg.loading = 'lazy';
+      thumbImg.decoding = 'async';
+      rememberFound(photo, thumbImg);
+      loadWithFallback(thumbImg, photo.sources, () => { thumbImg.hidden = true; });
+
+      thumb.append(thumbImg);
+      thumb.addEventListener('click', () => slideTo(index));
+      thumbsBox.append(thumb);
+      thumbs.push(thumb);
     });
 
-    if (PHOTO_COUNT > FIRST_SHOWN) {
-      moreButton.hidden = false;
-      moreButton.addEventListener('click', () => {
-        gallery.classList.remove('is-collapsed');
-        moreButton.hidden = true;
-        const firstExtra = gallery.querySelector('.is-extra');
-        if (firstExtra) firstExtra.focus({ preventScroll: true });
+    function loadMainSlide(index) {
+      const slide = slides[index];
+      if (!slide || slide.dataset.started) return;
+      slide.dataset.started = '1';
+
+      const img = slide.querySelector('img');
+      rememberFound(photos[index], img);
+      loadWithFallback(img, photos[index].sources, () => {
+        img.hidden = true;
+        const error = document.createElement('span');
+        error.className = 'slide-error';
+        error.textContent = `${photos[index].file} 파일을 찾지 못했어요.`;
+        slide.append(error);
       });
+    }
+
+    // 보고 있는 사진과 양옆 사진만 미리 불러옵니다.
+    function loadAround(index) {
+      if (!galleryReady) return;
+      [index, index + 1, index - 1].forEach(i => {
+        loadMainSlide((i + photos.length) % photos.length);
+      });
+    }
+
+    function setSlide(index) {
+      slideIndex = index;
+      sliderCount.textContent = `${index + 1} / ${photos.length}`;
+
+      thumbs.forEach((thumb, i) => {
+        thumb.classList.toggle('is-active', i === index);
+        if (i === index) thumb.setAttribute('aria-current', 'true');
+        else thumb.removeAttribute('aria-current');
+      });
+
+      const active = thumbs[index];
+      thumbsBox.scrollTo({
+        left: active.offsetLeft - (thumbsBox.clientWidth - active.offsetWidth) / 2,
+        behavior: reduceMotion ? 'auto' : 'smooth'
+      });
+
+      loadAround(index);
+    }
+
+    function slideTo(index) {
+      const target = (index + photos.length) % photos.length;
+      const jump = Math.abs(target - slideIndex) > 1;
+      sliderTrack.scrollTo({
+        left: target * sliderTrack.clientWidth,
+        behavior: jump || reduceMotion ? 'auto' : 'smooth'
+      });
+    }
+
+    sliderTrack.addEventListener('scroll', () => {
+      cancelAnimationFrame(slideFrame);
+      slideFrame = requestAnimationFrame(() => {
+        const width = sliderTrack.clientWidth;
+        if (!width) return;
+        const index = Math.round(sliderTrack.scrollLeft / width);
+        if (index !== slideIndex && index >= 0 && index < photos.length) {
+          setSlide(index);
+        }
+      });
+    }, { passive: true });
+
+    $('slider-prev').addEventListener('click', () => slideTo(slideIndex - 1));
+    $('slider-next').addEventListener('click', () => slideTo(slideIndex + 1));
+
+    setSlide(0);
+
+    // 갤러리 근처까지 내려왔을 때 큰 사진을 불러옵니다.
+    if ('IntersectionObserver' in window) {
+      const galleryObserver = new IntersectionObserver(entries => {
+        if (entries.some(entry => entry.isIntersecting)) {
+          galleryObserver.disconnect();
+          galleryReady = true;
+          loadAround(slideIndex);
+        }
+      }, { rootMargin: '800px 0px' });
+      galleryObserver.observe(sliderTrack);
     } else {
-      gallery.classList.remove('is-collapsed');
+      galleryReady = true;
+      loadAround(slideIndex);
     }
 
     // ───────── 사진 크게 보기 ─────────
@@ -1166,7 +1387,6 @@
     const countText = $('viewer-count');
 
     let current = 0;
-    let lastTrigger = null;
     let savedScrollY = 0;
     let frame = 0;
     let viewerInHistory = false;
@@ -1237,9 +1457,7 @@
       window.scrollTo(0, savedScrollY);
     }
 
-    function openViewer(index, trigger) {
-      lastTrigger = trigger;
-
+    function openViewer(index) {
       // 뒤로가기를 누르면 카톡으로 나가지 않고 사진 화면만 닫히도록 기록을 하나 남깁니다.
       try {
         history.pushState({ viewer: true }, '');
@@ -1282,9 +1500,12 @@
       }
     }
 
+    // 크게 보다가 닫으면, 갤러리도 마지막으로 본 사진에 맞춰 둡니다.
     function afterClose() {
       unlockPage();
-      if (lastTrigger) lastTrigger.focus({ preventScroll: true });
+      sliderTrack.scrollLeft = current * sliderTrack.clientWidth;
+      setSlide(current);
+      slides[current].focus({ preventScroll: true });
     }
 
     // 뒤로가기(버튼, 스와이프)
@@ -1326,10 +1547,85 @@
     });
 
     window.addEventListener('resize', () => {
+      sliderTrack.scrollLeft = slideIndex * sliderTrack.clientWidth;
       if (viewer.hasAttribute('open')) {
         track.scrollLeft = current * track.clientWidth;
       }
     });
+
+    // ───────── 네이버 지도 ─────────
+    // 네이버 클라우드 플랫폼에서 발급받은 Maps Client ID를 따옴표 안에 넣어 주세요.
+    // 비워 두면 map.jpg(지도 캡처 사진)를 보여 주고, 그것도 없으면 '네이버 지도에서 위치 보기' 버튼만 보여 줍니다.
+    const NAVER_MAP_KEY = '';
+    const VENUE = { name: '연세대학교 동문회관', lat: 37.562805, lng: 126.942454 };
+
+    const mapBox = $('map');
+    const mapCanvas = $('naver-map');
+    let mapFallbackShown = false;
+
+    function showMapFallback() {
+      if (mapFallbackShown) return;
+      mapFallbackShown = true;
+      mapCanvas.hidden = true;
+      $('map-fallback').hidden = false;
+
+      const shot = $('map-shot');
+      shot.addEventListener('load', () => { shot.hidden = false; }, { once: true });
+      loadWithFallback(shot, sourcesFor('map'), () => {
+        shot.hidden = true;
+        $('map-empty').hidden = false;
+      });
+    }
+
+    window.navermap_authFailure = showMapFallback;   // Client ID가 틀렸거나 주소가 등록되지 않은 경우
+
+    window.initNaverMap = function () {
+      const position = new naver.maps.LatLng(VENUE.lat, VENUE.lng);
+      const map = new naver.maps.Map(mapCanvas, {
+        center: position,
+        zoom: 16,
+        draggable: false,          // 지도에 손가락이 닿아도 페이지 스크롤이 막히지 않게
+        scrollWheel: false,
+        keyboardShortcuts: false,
+        zoomControl: true,
+        zoomControlOptions: {
+          style: naver.maps.ZoomControlStyle.SMALL,
+          position: naver.maps.Position.TOP_RIGHT
+        }
+      });
+
+      new naver.maps.Marker({
+        position,
+        map,
+        icon: {
+          content: `<div class="map-pin"><span>${VENUE.name}</span></div>`,
+          anchor: new naver.maps.Point(11, 11)
+        }
+      });
+    };
+
+    function loadNaverMap() {
+      const script = document.createElement('script');
+      script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${encodeURIComponent(NAVER_MAP_KEY)}&callback=initNaverMap`;
+      script.async = true;
+      script.onerror = showMapFallback;
+      document.head.append(script);
+    }
+
+    if (!NAVER_MAP_KEY) {
+      showMapFallback();
+    } else if ('IntersectionObserver' in window) {
+      // 지도 근처까지 스크롤했을 때 불러와서 첫 화면을 빠르게 띄웁니다.
+      const mapObserver = new IntersectionObserver(entries => {
+        if (entries.some(entry => entry.isIntersecting)) {
+          mapObserver.disconnect();
+          loadNaverMap();
+        }
+      }, { rootMargin: '600px 0px' });
+      mapObserver.observe(mapBox);
+    } else {
+      loadNaverMap();
+    }
 
     // ───────── 결혼식까지 남은 날 ─────────
     (function updateDday() {
@@ -1394,4 +1690,4 @@
     });
   </script>
 </body>
-  </html>
+</html>
