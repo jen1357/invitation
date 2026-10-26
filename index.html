@@ -2,119 +2,79 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>저희 결혼합니다</title>
-  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+  <!-- 카카오톡 인앱 브라우저 화면 비율 및 확대 방지 최적화 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no">
+  
+  <!-- 카카오톡 링크 공유 시 뜨는 미리보기(Open Graph) 설정 -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="김준수 ♥ 김대연, 저희 결혼합니다">
+  <meta property="og:description" content="2027년 2월 27일 (토) 오후 1시">
+  <meta property="og:image" content="main.jpg">
+
+  <title>김준수 ♥ 김대연 결혼식에 초대합니다</title>
+
+  <!-- 웹폰트: 감성 명조체(고운바탕, Cormorant) + 가독성 고딕(프리텐다드) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg-color: #f8f6f2;       /* 따뜻한 오프화이트 배경 */
+      --point-green: #2c4233;    /* 메인 사진의 숲과 어울리는 딥그린 */
+      --point-red: #9e3a34;      /* 부케 포인트 컬러와 어울리는 딥레드 */
+      --text-dark: #222222;
+      --text-gray: #666666;
+      --text-light: #999999;
+      --border-color: #e6e2da;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    
     body {
       font-family: 'Gowun Batang', serif;
-      background-color: #f4f1ea;
-      color: #333;
+      background-color: #e8e5df;
+      color: var(--text-dark);
       display: flex;
       justify-content: center;
+      -webkit-font-smoothing: antialiased;
+      word-break: keep-all; /* 카톡 브라우저 단어 잘림 방지 */
     }
-    /* 모바일 화면 비율 고정 */
+
+    /* 모바일 청첩장 표준 컨테이너 */
     .container {
       width: 100%;
       max-width: 430px;
       background-color: #ffffff;
       min-height: 100vh;
-      box-shadow: 0 0 20px rgba(0,0,0,0.05);
+      box-shadow: 0 0 25px rgba(0,0,0,0.06);
       text-align: center;
-      padding-bottom: 60px;
+      overflow-x: hidden;
+      padding-bottom: 80px;
     }
-    .header { padding: 50px 20px 30px; }
-    .date-top { font-size: 14px; letter-spacing: 3px; color: #888; margin-bottom: 12px; }
-    .names { font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #222; }
-    .main-img {
-      width: 100%;
-      height: 480px;
-      background-color: #e8e4dc;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #777;
-      font-size: 14px;
-      margin: 20px 0;
+
+    /* 1. 상단 헤더 영역 */
+    .header {
+      padding: 45px 20px 25px;
     }
-    .section { padding: 45px 30px; line-height: 2.0; }
-    .section-title {
-      font-size: 15px;
-      color: #8c7b6b;
-      letter-spacing: 2px;
-      margin-bottom: 25px;
+    .eng-date {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      letter-spacing: 4px;
+      color: var(--point-green);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .main-names {
+      font-size: 22px;
       font-weight: 700;
+      letter-spacing: 6px;
+      color: var(--text-dark);
+      padding-left: 6px;
     }
-    .greeting { font-size: 15px; color: #444; word-break: keep-all; }
-    .divider { width: 40px; height: 1px; background-color: #ddd; margin: 0 auto; }
-    .info-box {
-      background-color: #faf9f6;
-      padding: 25px 20px;
-      border-radius: 8px;
-      margin-top: 20px;
-      font-size: 15px;
-    }
-    .btn {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 10px 22px;
-      background-color: #4a453f;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 4px;
-      font-size: 13px;
-      cursor: pointer;
-      border: none;
-      font-family: 'Gowun Batang', serif;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <!-- 상단 타이틀 -->
-    <div class="header">
-      <div class="date-top">WEDDING INVITATION</div>
-      <div class="names">신랑이름 · 신부이름</div>
-    </div>
-
-    <!-- 메인 웨딩 사진 영역 -->
-    <div class="main-img">
-      이곳에 메인 웨딩 사진이 들어갑니다
-    </div>
-
-    <!-- 초대 인사말 -->
-    <div class="section">
-      <div class="section-title">INVITATION</div>
-      <p class="greeting">
-        서로가 마주 보며 다져온 사랑을<br>
-        이제 함께 한곳을 바라보며<br>
-        걸어갈 수 있는 큰 사랑으로 키우고자 합니다.<br><br>
-        저희 두 사람이 사랑의 이름으로<br>
-        지켜나갈 수 있게 앞날을<br>
-        축복해 주시면 감사하겠습니다.
-      </p>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- 예식 일시 및 장소 -->
-    <div class="section">
-      <div class="section-title">WHEN & WHERE</div>
-      <div class="info-box">
-        <strong>202X년 X월 X일 (토) 오후 X시</strong><br>
-        웨딩홀 이름 및 층수 홀이름
-      </div>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- 마음 전하실 곳 -->
-    <div class="section">
-      <div class="section-title">마음 전하실 곳</div>
-      <p style="font-size: 14px; color: #666;">참석이 어려우신 분들을 위해<br>계좌번호를 안내해 드립니다.</p>
-      <button class="btn" onclick="alert('계좌번호가 복사되었습니다! (추후 실제 복사 기능 연동)')">계좌번호 확인하기</button>
-    </div>
-  </div>
-</body>
-</html>
+    .main-names span {
+      font-weight: 400;
+      color: var(--text-light);
+      font-size: 16
