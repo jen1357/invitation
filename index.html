@@ -77,4 +77,231 @@
     .main-names span {
       font-weight: 400;
       color: var(--text-light);
-      font-size: 16
+      font-size: 16px;
+      margin: 0 4px;
+      vertical-align: middle;
+    }
+
+    /* 2. 메인 웨딩 사진 영역 */
+    .main-photo-wrap {
+      padding: 0 20px;
+    }
+    .main-photo {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 6px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+    .photo-caption {
+      margin-top: 18px;
+      font-size: 13px;
+      color: var(--text-gray);
+      letter-spacing: 1.5px;
+      font-family: 'Pretendard', sans-serif;
+      font-weight: 300;
+    }
+
+    /* 공통 섹션 스타일 */
+    .section {
+      padding: 55px 30px;
+    }
+    .eng-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      letter-spacing: 3px;
+      color: var(--point-green);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .kor-title {
+      font-size: 17px;
+      color: var(--text-dark);
+      font-weight: 700;
+      margin-bottom: 30px;
+      letter-spacing: 1px;
+    }
+    .divider {
+      width: 1px;
+      height: 40px;
+      background-color: var(--border-color);
+      margin: 0 auto;
+    }
+
+    /* 3. 초대 인사말 */
+    .greeting-text {
+      font-size: 15.5px;
+      line-height: 2.1;
+      color: #3a3a3a;
+      margin-bottom: 35px;
+    }
+    .parents-box {
+      background-color: var(--bg-color);
+      padding: 22px 15px;
+      border-radius: 8px;
+      font-size: 15px;
+      line-height: 2.0;
+      color: var(--text-dark);
+    }
+    .parents-box .relation {
+      font-size: 13px;
+      color: var(--text-gray);
+      margin: 0 6px;
+    }
+
+    /* 4. 2027년 2월 달력 및 D-Day */
+    .calendar-section {
+      background-color: var(--bg-color);
+      padding: 55px 30px;
+    }
+    .cal-date-str {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .cal-time-str {
+      font-size: 15px;
+      color: var(--text-gray);
+      margin-bottom: 25px;
+    }
+    .calendar-table {
+      width: 100%;
+      max-width: 310px;
+      margin: 0 auto 25px;
+      border-collapse: collapse;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+      font-family: 'Pretendard', sans-serif;
+      font-size: 14px;
+    }
+    .calendar-table th {
+      padding: 12px 0 8px;
+      font-weight: 500;
+      color: var(--text-gray);
+      font-size: 12px;
+    }
+    .calendar-table td {
+      padding: 10px 0;
+      color: var(--text-dark);
+    }
+    .calendar-table tr:first-child td { padding-top: 12px; }
+    .calendar-table tr:last-child td { padding-bottom: 14px; }
+    .sun { color: var(--point-red) !important; }
+    .wedding-day {
+      background-color: var(--point-green);
+      color: #ffffff !important;
+      font-weight: 600;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .dday-msg {
+      font-size: 14.5px;
+      color: var(--text-dark);
+      margin-top: 15px;
+    }
+    .dday-msg span {
+      color: var(--point-red);
+      font-weight: 700;
+      font-family: 'Pretendard', sans-serif;
+    }
+
+    /* 5. 오시는 길 */
+    .location-name {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .location-addr {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 14px;
+      color: var(--text-gray);
+      margin-bottom: 20px;
+    }
+    .map-placeholder {
+      width: 100%;
+      height: 220px;
+      background-color: #f0eee9;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-gray);
+      font-size: 14px;
+      margin-bottom: 15px;
+      border: 1px solid var(--border-color);
+    }
+
+    /* 6. 계좌번호 아코디언 (카톡에서도 깔끔하게 열리고 닫힘) */
+    .acc-group {
+      margin-top: 15px;
+      text-align: left;
+      font-family: 'Pretendard', sans-serif;
+    }
+    .acc-btn {
+      width: 100%;
+      background-color: var(--bg-color);
+      border: 1px solid var(--border-color);
+      padding: 15px 18px;
+      font-size: 14.5px;
+      font-weight: 500;
+      color: var(--text-dark);
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      margin-bottom: 8px;
+    }
+    .acc-content {
+      display: none;
+      background-color: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 15px 18px;
+      margin-bottom: 12px;
+      font-size: 13.5px;
+    }
+    .acc-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #f2f2f2;
+    }
+    .acc-row:last-child { border-bottom: none; }
+    .copy-btn {
+      background-color: var(--point-green);
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <!-- 1. 상단 헤더 -->
+    <div class="header">
+      <div class="eng-date">2027. 02. 27</div>
+      <div class="main-names">김준수 <span>그리고</span> 김대연</div>
+    </div>
+
+    <!-- 2. 메인 웨딩 사진 -->
+    <div class="main-photo-wrap">
+      <img src="main.jpg" alt="김준수 김대연 웨딩사진" class="main-photo">
+      <div class="photo-caption">2027년 2월 27일 토요일 오후 1시</div>
+    </div>
+
+    <!-- 3. 초대 인사말 -->
+    <div class="section">
+      <div class="eng-title">INVITATION</div>
+      <div class="kor-title">소중한 분들을 초대합니다</div>
+      <p class="greeting-text">
+        따스한 봄기운이 스
